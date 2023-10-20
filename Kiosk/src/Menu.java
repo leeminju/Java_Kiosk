@@ -16,11 +16,17 @@ public class Menu {
     }
 
     //메뉴 주문 상태까지 지정
+    Menu(String name){
+        this.name=name;
+    }
     Menu(String name, String explanation,int state) {
        this(name,explanation);
        this.state = state;
     }
 
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
 
     public String getName() {
         return name;

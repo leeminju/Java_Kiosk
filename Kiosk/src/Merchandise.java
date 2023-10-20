@@ -12,15 +12,24 @@ public class Merchandise extends Menu {
         this.price = price;
     }
 
+    public Merchandise(String name, double price) {
+        super(name);
+        this.price = price;
+    }
+
     public double getPrice() {
         return price;
     }
-    
 
-    public void addOption(Option option) {
+
+    public void addOption(String name, double price) {
+        //여기서 연결 (생각해보기)
+        Option option = new Option(this.getName() + name, price);
         OptionList.add(option);
+        option.setExplanation(this.getExplanation());
+        option.setShowname(name);
     }
-    
+
     public List<Option> getOptionList() {
         return OptionList;
     }

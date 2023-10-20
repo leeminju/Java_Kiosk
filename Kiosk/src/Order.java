@@ -4,6 +4,7 @@ import java.util.Map;
 public class Order {
     //상품 객체 담음!(장바구니)
     private Map<Merchandise, Integer> orderMap = new HashMap<>();//상품, 상품개수
+    //객체의 id로
     static double pricesum = 0;//가격의 합
 
     void addMerchansise(Merchandise md) {
