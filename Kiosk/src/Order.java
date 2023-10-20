@@ -3,13 +3,13 @@ import java.util.Map;
 
 public class Order {
     //상품 객체 담음!(장바구니)
-    private Map<Merchandise, Integer> orderMap = new HashMap<>();//상품, 상품개수
+    private Map<String, Integer> orderMap = new HashMap<>();//상품, 상품개수
     //객체의 id로
     static double pricesum = 0;//가격의 합
 
-    void addMerchansise(Merchandise md) {
-        orderMap.put(md, orderMap.getOrDefault(md, 0) + 1);
-        pricesum += md.getPrice();
+    void addMerchansise(String name) {
+        orderMap.put(name, orderMap.getOrDefault(name, 0) + 1);
+        pricesum += Kiosk.mdMap.get(name).getPrice();
     }
 
     void cancelOrder() {
@@ -21,13 +21,14 @@ public class Order {
         return pricesum;
     }
 
-    public Map<Merchandise, Integer> getOrderMap() {
+    public Map<String, Integer> getOrderMap() {
         return orderMap;
     }
 
     public void PrintOrderList() {
-        for (Merchandise md : orderMap.keySet()) {
-            System.out.printf("%-10s | W %.1f |  %d개 | %s\n", md.getName(), md.getPrice(), orderMap.get(md), md.getExplanation());
+        for (String name : orderMap.keySet()) {
+            Merchandise md = Kiosk.mdMap.get(name);
+            System.out.printf("%-10s | W %.1f |  %d개 | %s\n", name, md.getPrice(), orderMap.get(name), md.getExplanation());
         }
 
     }
