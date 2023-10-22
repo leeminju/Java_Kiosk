@@ -1,9 +1,11 @@
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Kiosk {
     static Scanner sc = new Scanner(System.in);
+    DecimalFormat df = new DecimalFormat("0.0");
     static final String company = "맥도날드";
     static List<Menu> menulist = new ArrayList<>();
     private int ordernum;//5번
@@ -43,7 +45,28 @@ public class Kiosk {
         b3.addOption("라지 세트", 7.9);
         burger.addMerchadise(b3);
 
+        Merchandise b4 = new Merchandise("맥스파이시 상하이 버거", 5.2, "매콤한 시즈닝을 입힌 100% 닭가슴 통살 위에 아삭아삭한 양상추와 신선한 토마토~\n" +
+                "겉은 바삭, 속은 부드러운 치킨 패티의 매콤함으로 입맛도 기분도 화끈하게!", true);
+        b4.addOption("단품", 5.2);
+        b4.addOption("세트", 6.5);
+        b4.addOption("라지 세트", 7.2);
+        burger.addMerchadise(b4);
+
+        Merchandise b5 = new Merchandise("슈슈버거", 4.7, "탱~글한 통새우살 가득~ 슈슈 버거!", true);
+        b5.addOption("단품", 4.7);
+        b5.addOption("세트", 6.0);
+        b5.addOption("라지 세트", 6.7);
+        burger.addMerchadise(b5);
+
+        Merchandise b6 = new Merchandise("맥크리스피 디럭스 버거", 6.8, "100% 통닭다리살 겉바속촉 케이준 치킨 패티, 촉촉한 포테이토 브리오쉬 번, 스페셜 스모키 소스가 선사하는 놀랍도록 새로운 맛의 치킨 버거!", true);
+        b6.addOption("단품", 6.7);
+        b6.addOption("세트", 7.9);
+        b6.addOption("라지 세트", 8.6);
+        burger.addMerchadise(b6);
+
+
         addMenu(burger);
+        burger.SortMDList();
     }
 
     static private void addMcMorning() {
@@ -68,8 +91,24 @@ public class Kiosk {
         m3.addOption("세트", 4.8);
         mcMorning.addMerchadise(m3);
 
+        Merchandise m4 = new Merchandise("에그 맥머핀", 3.0, "캐나디안 스타일 베이컨과 계란의 클래식한 만남,맥도날드의 아침을 탄생하게 한 바로 그 메뉴.", true);
+        m4.addOption("단품", 3.0);
+        m4.addOption("콤보", 3.5);
+        m4.addOption("세트", 4.4);
+        mcMorning.addMerchadise(m4);
+
+        Merchandise m5 = new Merchandise("치킨 치즈 머핀", 3.6, "바삭한 치킨 패티와 고소한 치즈로 아침에도 든든하게!", true);
+        m5.addOption("단품", 3.6);
+        m5.addOption("세트", 4.9);
+        mcMorning.addMerchadise(m5);
+
+        Merchandise m6 = new Merchandise("디럭스 브렉퍼스트", 5.2, "정통 아메리칸 스타일의 브렉퍼스트와 달콤한 핫케익을 함께~ 프리미엄한 주말 브런치를 매일 즐겨보세요.", true);
+        m6.addOption("단품", 5.2);
+        m6.addOption("세트", 6.2);
+        mcMorning.addMerchadise(m6);
 
         addMenu(mcMorning);
+        mcMorning.SortMDList();
     }
 
     static private void addSideDessert() {
@@ -100,6 +139,7 @@ public class Kiosk {
         sideDessert.addMerchadise(new Merchandise("바닐라 선데이 아이스크림", 2.0, "신선한 우유로 만든 부드럽고 달콤한 아이스크림"));
 
         addMenu(sideDessert);
+        sideDessert.SortMDList();
     }
 
     static private void addDrink() {
@@ -155,6 +195,7 @@ public class Kiosk {
         drink.addMerchadise(new Merchandise("바닐라 쉐이크", 2.8, "신선한 우유에 달콤한 바닐라 시럽으로 맛을 더한 깔끔한 쉐이크!"));
 
         addMenu(drink);
+        drink.SortMDList();
     }
 
     static void Setting() {
@@ -241,7 +282,7 @@ public class Kiosk {
         System.out.println("현재까지 총 판매된 상품 목록은 아래와 같습니다.");
         for (String name : soldMdSet) {
             Merchandise md = mdMap.get(name);
-            System.out.printf("- %-10s | W %.1f\n", name, md.getPrice());
+            System.out.println("- " + name + "\t | W " + df.format(md.getPrice()));
         }
     }
 
@@ -341,7 +382,7 @@ public class Kiosk {
     private void PrintHiddenMenu() {
         //총 판매 금액(히든메뉴)
         PrintTotalSale();
-        System.out.println("1.돌아가기");
+        System.out.println("1. 돌아가기");
 
         while (true) {
             try {
@@ -485,6 +526,7 @@ public class Kiosk {
     }
 
     void start() {
+        Setting();// 딱 한번만!
         PrintMainMenu();
     }
 }

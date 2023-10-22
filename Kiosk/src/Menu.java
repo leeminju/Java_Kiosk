@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Menu {
@@ -14,6 +15,7 @@ public class Menu {
         this.explanation = explanation;
         this.state = 0;
     }
+
 
     //메뉴 주문 상태까지 지정
     Menu(String name) {
@@ -61,8 +63,19 @@ public class Menu {
         }
     }
 
+    public void SortMDList() {
+        // 오름차순 정렬
+        mdlist.sort(new Comparator<Merchandise>() {
+            @Override
+            public int compare(Merchandise m1, Merchandise m2) {
+                return m1.getName().compareTo(m2.getName());
+            }
+        });
+    }
+
+
     @Override
     public String toString() {
-        return this.name+ "\t\t| " + this.explanation;
+        return this.name + "\t\t| " + this.explanation;
     }
 }

@@ -1,6 +1,8 @@
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
 
 public class Merchandise extends Menu {
     protected double price;//가격
@@ -64,4 +66,5 @@ public class Merchandise extends Menu {
     public String toString() {
         return this.getName() + "\t | W " + df.format(price) + " | " + this.getExplanation();
     }
+
 }
