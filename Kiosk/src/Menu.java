@@ -16,12 +16,13 @@ public class Menu {
     }
 
     //메뉴 주문 상태까지 지정
-    Menu(String name){
-        this.name=name;
+    Menu(String name) {
+        this.name = name;
     }
-    Menu(String name, String explanation,int state) {
-       this(name,explanation);
-       this.state = state;
+
+    Menu(String name, String explanation, int state) {
+        this(name, explanation);
+        this.state = state;
     }
 
     public void setExplanation(String explanation) {
@@ -56,7 +57,12 @@ public class Menu {
         System.out.println("[ " + this.name + " MENU ]");
         for (int i = 0; i < mdlist.size(); i++) {
             Merchandise md = mdlist.get(i);
-            System.out.printf("%d. %-10s | W %.1f | %s\n", (i + 1), md.getName(), md.getPrice(), md.getExplanation());
+            System.out.println((i + 1) + ". " + md.toString());
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.name+ "\t\t| " + this.explanation;
     }
 }

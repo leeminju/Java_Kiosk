@@ -3,13 +3,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Kiosk {
-
+    static Scanner sc = new Scanner(System.in);
     static final String company = "맥도날드";
     static List<Menu> menulist = new ArrayList<>();
-    private int ordernum;
-    private int cancelnum;
-    static private int wait = 1;
-    static private double totalSale = 0;
+    private int ordernum;//5번
+    private int cancelnum;//6번
+    static private int wait = 1;//대기번호
+    static private double totalSale = 0; //판매금맥
     static Set<String> soldMdSet = new LinkedHashSet<>();// 중복 제거 (수량 나올 필요 없음)
 
     static Map<String, Merchandise> mdMap = new HashMap<>(); // 모든 상품 Map
@@ -21,7 +21,7 @@ public class Kiosk {
     }
 
     static private void addHamburger() {
-        Menu burger = new Menu("버거", "빅맥에서 맥스파이시 상하이버거까지,\n" + "\t주문 즉시 바로 조리해 더욱 맛있는, 맥도날드의 다양한 버거를 소개합니다.", 2);
+        Menu burger = new Menu("버거", "빅맥에서 맥스파이시 상하이버거까지, 주문 즉시 바로 조리해 더욱 맛있는, 맥도날드의 다양한 버거를 소개합니다.", 2);
         //메뉴에 상품 넣기
         Merchandise b1 = new Merchandise("진도 대파 크림 크로켓 버거", 7.5, "100% 국내산 진도 대파가 들어간 겉바속촉 크로켓에 구운 대파 마요 소스로 풍미 가득!", true);
         b1.addOption("단품", 7.5);
@@ -47,7 +47,7 @@ public class Kiosk {
     }
 
     static private void addMcMorning() {
-        Menu mcMorning = new Menu("맥모닝", "새벽 4시부터 오전 10시 30분까지\n" + "\t갓 구워내 신선한 맥모닝으로 따뜻한 아침 식사를 챙겨 드세요!", 1);
+        Menu mcMorning = new Menu("맥모닝", "새벽 4시부터 오전 10시 30분까지 갓 구워내 신선한 맥모닝으로 따뜻한 아침 식사를 챙겨 드세요!", 1);
         //메뉴에 상품 넣기
         Merchandise m1 = new Merchandise("베이컨 에그 맥머핀", 3.4, "부드러운 계란, 바삭바삭한 베이컨과 고소한 치즈가 갓 구워진 따뜻한 맥머핀", true);
         m1.addOption("단품", 3.4);
@@ -73,9 +73,9 @@ public class Kiosk {
     }
 
     static private void addSideDessert() {
-        Menu sideDessert = new Menu("사이드 & 디저트", "가볍게 즐겨도, 버거와 함께 푸짐하게 즐겨도,\n" + "\t언제나 맛있는 사이드와 디저트 메뉴!");
+        Menu sideDessert = new Menu("사이드 & 디저트", "가볍게 즐겨도, 버거와 함께 푸짐하게 즐겨도 언제나 맛있는 사이드와 디저트 메뉴!");
         //메뉴에 상품 넣기
-        Merchandise side1 = new Merchandise("후렌치 후라이", 1.3, "통으로 썰어낸 감자를 맥도날드만의 노하우로 튀겨낸 남다른 맛과 바삭함!\n 맥도날드의 역사가 담긴 월드 클래스 후렌치 후라이", true);
+        Merchandise side1 = new Merchandise("후렌치 후라이", 1.3, "통으로 썰어낸 감자를 맥도날드만의 노하우로 튀겨낸 남다른 맛과 바삭함! 맥도날드의 역사가 담긴 월드 클래스 후렌치 후라이", true);
         side1.addOption("S", 1.3);
         side1.addOption("M", 2.0);
         side1.addOption("L", 2.7);
@@ -137,17 +137,17 @@ public class Kiosk {
         d6.addOption("L", 2.2);
         drink.addMerchadise(d6);
 
-        Merchandise d7 = new Merchandise("코카콜라 제로", 1.7, "상쾌한 맛은 살리면서 웰빙 트렌드에 맞춰 설탕과 칼로리를 제로로 줄인 코카-콜라 제로",true);
+        Merchandise d7 = new Merchandise("코카콜라 제로", 1.7, "상쾌한 맛은 살리면서 웰빙 트렌드에 맞춰 설탕과 칼로리를 제로로 줄인 코카-콜라 제로", true);
         d7.addOption("M", 1.7);
         d7.addOption("L", 2.2);
         drink.addMerchadise(d7);
 
-        Merchandise d8 = new Merchandise("스프라이트", 1.7, "청량함에 레몬, 라임향을 더한 시원함!",true);
+        Merchandise d8 = new Merchandise("스프라이트", 1.7, "청량함에 레몬, 라임향을 더한 시원함!", true);
         d8.addOption("M", 1.7);
         d8.addOption("L", 2.2);
         drink.addMerchadise(d8);
 
-        Merchandise d9 = new Merchandise("환타", 1.7, "톡 쏘는 오렌지 향!",true);
+        Merchandise d9 = new Merchandise("환타", 1.7, "톡 쏘는 오렌지 향!", true);
         d9.addOption("M", 1.7);
         d9.addOption("L", 2.2);
         drink.addMerchadise(d9);
@@ -174,21 +174,23 @@ public class Kiosk {
         int i = 0;
         for (i = 0; i < menulist.size(); i++) {
             Menu menu = menulist.get(i);
-            System.out.printf("%d. %-11s | %s\n", (i + 1), menu.getName(), menu.getExplanation());
+            System.out.println((i + 1) + ". " + menu.toString());
         }
 
 
         System.out.println("[ ORDER MENU ]");
         ordernum = ++i;
         cancelnum = ++i;
-        System.out.printf("%d. %s\t\t | %s\n", ordernum, "Order", "장바구니를 확인 후 주문합니다");
-        System.out.printf("%d. %s\t\t | %s\n", cancelnum, "Cancel", "진행중인 주문을 취소합니다");
+        System.out.println(ordernum + ". Order\t\t | 장바구니를 확인 후 주문합니다");
+        System.out.println(cancelnum + ". Cancel\t\t | 진행중인 주문을 취소합니다");
 
         SelectMenu();
     }
 
+    //선택한 메뉴의 상품 출력
     private void PrintMerchandise(int index) {
         Menu menu = menulist.get(index);
+
         if (menu.getState() == 0) {
             //항상 주문 가능한 상품
             menu.PrintMerchandise();
@@ -199,22 +201,23 @@ public class Kiosk {
                 Date end = dateFormat.parse("10:30:00");
                 Date cur = dateFormat.parse(dateFormat.format(new Date()));
 
-                if (cur.before(end) && cur.after(start)) {
+                //4시 이후 10시반 이전
+                if (cur.after(start) && cur.before(end)) {
                     // 맥모닝 주문 가능 & 버거 주문 불가
                     if (menu.getState() == 1) {
                         menu.PrintMerchandise();
                     } else if (menu.getState() == 2) {
-                        System.out.println("현재 버거는 주문이 불가능 하고, 아침 메뉴 판매중 입니다!");
+                        System.out.println("현재 버거는 주문이 불가능 하고, 아침 메뉴 판매 중 입니다!");
                         System.out.println("2초 후 메인으로 돌아갑니다.");
                         Thread.sleep(2000);
                         PrintMainMenu();
                     }
                 } else {
-                    // 맥모닝 주문 불가 & 버거 주문가능
+                    // 맥모닝 주문 불가 & 버거 주문 가능
                     if (menu.getState() == 2) {
                         menu.PrintMerchandise();
                     } else if (menu.getState() == 1) {
-                        System.out.println("맥모닝은 AM 4:00 ~ AM 10:30에만 판매합니다!");
+                        System.out.println("맥모닝은 AM 4:00 ~ AM 10:30에만 판매 합니다!");
                         System.out.println("2초 후 메인으로 돌아갑니다.");
                         Thread.sleep(2000);
                         PrintMainMenu();
@@ -244,7 +247,6 @@ public class Kiosk {
 
     //선택
     private void SelectMenu() {
-        Scanner sc = new Scanner(System.in);
         while (true) {
             try {
                 int select = sc.nextInt();
@@ -255,7 +257,7 @@ public class Kiosk {
                     SelectMerchndise(select - 1);
                 } else if (select == 0) {
                     //총 판매 금액(히든메뉴)
-                    HiddenMenu();
+                    PrintHiddenMenu();
                     break;
                 } else if (select == ordernum) {
                     OrderMdInCart();
@@ -274,9 +276,9 @@ public class Kiosk {
 
     }
 
+    //해당 인덱스의 메뉴 중 주문할 상품 고르기(메뉴의 인덱스)
     private void SelectMerchndise(int index) {
         Menu select_menu = menulist.get(index);
-        Scanner sc = new Scanner(System.in);
 
         while (true) {
             try {
@@ -285,18 +287,18 @@ public class Kiosk {
                 if (select <= select_menu.getMdlist().size() && select >= 1) {
                     //상품 선택
                     Merchandise md = select_menu.getMdlist().get(select - 1);
-                    System.out.printf("%-10s | W %.1f | %s\n", md.getName(), md.getPrice(), md.getExplanation());
+                    System.out.println(md.toString());
 
                     //옵션 기능!
                     if (md.getOption()) {
                         SelectOption(index, select - 1);
                     } else {
                         //장바구니 추가
-                        CartMenu(md.getName(), index);
+                        PrintCartMenu(md.getName(), index);
                         break;
                     }
                 } else if (select == 0) {
-                    HiddenMenu();
+                    PrintHiddenMenu();
                     break;
                 } else {
                     System.out.println("다시 입력하세요!");
@@ -308,6 +310,7 @@ public class Kiosk {
         }
     }
 
+    //옵션 고르기(메뉴 인덱스,상품 인덱스)
     private void SelectOption(int menuindex, int mdindex) {
         Menu select_menu = menulist.get(menuindex);
         Merchandise md = select_menu.getMdlist().get(mdindex);
@@ -315,17 +318,15 @@ public class Kiosk {
         System.out.println("위 메뉴의 어떤 옵션으로 추가하시겠습니까?");
         md.PrintOption();
 
-        Scanner sc = new Scanner(System.in);
-
         while (true) {
             try {
                 int choice = sc.nextInt();
 
                 if (choice <= md.getOptionList().size() && choice >= 1) {
                     //옵션까지 선택
-                    Option option = md.getOptionList().get(choice - 1);
-                    System.out.println(option.getName() + " | " + option.getPrice() + " | " + option.getExplanation());
-                    CartMenu(option.getName(), menuindex);
+                    Merchandise option = md.getOptionList().get(choice - 1);
+                    System.out.println(option.toString());
+                    PrintCartMenu(option.getName(), menuindex);
                     break;
                 } else {
                     System.out.println("다시 입력하세요!");
@@ -337,11 +338,11 @@ public class Kiosk {
         }
     }
 
-    private void HiddenMenu() {
+    private void PrintHiddenMenu() {
         //총 판매 금액(히든메뉴)
         PrintTotalSale();
         System.out.println("1.돌아가기");
-        Scanner sc = new Scanner(System.in);
+
         while (true) {
             try {
                 int select = sc.nextInt();
@@ -358,12 +359,11 @@ public class Kiosk {
         }
     }
 
-    //장바구니
-    private void CartMenu(String name, int index) {
+    //장바구니 메뉴 출력(상품의 이름, 메뉴의 인덱스)
+    private void PrintCartMenu(String name, int index) {
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
 
-        Scanner sc = new Scanner(System.in);
         while (true) {
             try {
                 int check = sc.nextInt();
@@ -374,6 +374,7 @@ public class Kiosk {
                     break;
                 } else if (check == 2) {
                     //장바구니에 넣기 취소
+                    //해당 인덱스의 메뉴 출력, 상품 선택
                     PrintMerchandise(index);
                     SelectMerchndise(index);
                     break;
@@ -403,7 +404,7 @@ public class Kiosk {
         System.out.println("진행하던 주문을 취소하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
 
-        Scanner sc = new Scanner(System.in);
+
         while (true) {
             try {
                 int select = sc.nextInt();
@@ -444,7 +445,7 @@ public class Kiosk {
         order.PrintTotal();
 
         System.out.println("1. 주문      2. 메뉴판");
-        Scanner sc = new Scanner(System.in);
+
 
         while (true) {
             try {
@@ -480,7 +481,7 @@ public class Kiosk {
 
     private void AddToCart(String name) {
         order.addMerchansise(name);
-        System.out.println(name + "가(이) 장바구니에 추가되었습니다.");
+        System.out.println(name + "(이)가 장바구니에 추가되었습니다.");
     }
 
     boolean start() {

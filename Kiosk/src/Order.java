@@ -1,15 +1,15 @@
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Order {
     //상품 객체 담음!(장바구니)
-    private Map<String, Integer> orderMap = new HashMap<>();//상품, 상품개수
-    //객체의 id로
+    private Map<String, Integer> orderMap = new LinkedHashMap<>();//상품이름, 상품개수
     static double pricesum = 0;//가격의 합
 
     void addMerchansise(String name) {
         orderMap.put(name, orderMap.getOrDefault(name, 0) + 1);
-        pricesum += Kiosk.mdMap.get(name).getPrice();
+        pricesum += Kiosk.mdMap.get(name).getPrice();// mdMap에서 정보 가져옴
     }
 
     void cancelOrder() {
@@ -37,5 +37,6 @@ public class Order {
         System.out.println("[ Total ]");
         System.out.printf("W %.1f\n", pricesum);
     }
+
 
 }

@@ -14,4 +14,9 @@ public class Option extends Merchandise {
         return showname;
     }
 
+
+    public String toOptionString() {
+        return this.showname + " ( W " + df.format(this.getPrice()) + " )";
+    }
+
 }
