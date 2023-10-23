@@ -336,8 +336,6 @@ public class Kiosk {
                     SelectOption(index, select - 1);
                 } else {
                     //장바구니 추가
-                    System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
-                    System.out.println("1. 확인        2. 취소");
                     PrintCartMenu(md.getName(), index);
                 }
             } else if (select == 0) {
@@ -370,8 +368,6 @@ public class Kiosk {
                 //옵션까지 선택
                 Merchandise option = md.getOptionList().get(choice - 1);
                 System.out.println(option.toString());
-                System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
-                System.out.println("1. 확인        2. 취소");
                 PrintCartMenu(option.getName(), menuindex);
 
             } else {
@@ -413,6 +409,8 @@ public class Kiosk {
 
     //장바구니 메뉴 출력(상품의 이름, 메뉴의 인덱스)
     private void PrintCartMenu(String name, int index) {
+        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+        System.out.println("1. 확인        2. 취소");
         try {
             int check = sc.nextInt();
             if (check == 1) {
