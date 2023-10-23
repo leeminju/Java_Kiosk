@@ -288,32 +288,34 @@ public class Kiosk {
 
     //선택
     private void SelectMenu() {
-        while (true) {
-            try {
-                int select = sc.nextInt();
 
-                if (1 <= select && select <= menulist.size()) {
-                    //메뉴 선택
-                    PrintMerchandise(select - 1);
-                    SelectMerchndise(select - 1);
-                } else if (select == 0) {
-                    //총 판매 금액(히든메뉴)
-                    PrintHiddenMenu();
-                    break;
-                } else if (select == ordernum) {
-                    OrderMdInCart();
-                    break;
-                } else if (select == cancelnum) {
-                    CancelOrder();
-                    break;
-                } else {
-                    System.out.println("다시 입력하세요!");
-                }
-            } catch (InputMismatchException e) {
+        try {
+            int select = sc.nextInt();
+
+            if (1 <= select && select <= menulist.size()) {
+                //메뉴 선택
+                PrintMerchandise(select - 1);
+                SelectMerchndise(select - 1);
+            } else if (select == 0) {
+                //총 판매 금액(히든메뉴)
+                PrintHiddenMenu();
+
+            } else if (select == ordernum) {
+                OrderMdInCart();
+
+            } else if (select == cancelnum) {
+                CancelOrder();
+
+            } else {
                 System.out.println("다시 입력하세요!");
-                sc = new Scanner(System.in);
+                SelectMenu();//처음으로 돌아가기
             }
+        } catch (InputMismatchException e) {
+            System.out.println("다시 입력하세요!");
+            sc = new Scanner(System.in);
+            SelectMenu();
         }
+
 
     }
 
@@ -321,34 +323,35 @@ public class Kiosk {
     private void SelectMerchndise(int index) {
         Menu select_menu = menulist.get(index);
 
-        while (true) {
-            try {
-                int select = sc.nextInt();
+        try {
+            int select = sc.nextInt();
 
-                if (1 <= select && select <= select_menu.getMdlist().size()) {
-                    //상품 선택
-                    Merchandise md = select_menu.getMdlist().get(select - 1);
-                    System.out.println(md.toString());
+            if (1 <= select && select <= select_menu.getMdlist().size()) {
+                //상품 선택
+                Merchandise md = select_menu.getMdlist().get(select - 1);
+                System.out.println(md.toString());
 
-                    //옵션 기능!
-                    if (md.getOption()) {
-                        SelectOption(index, select - 1);
-                    } else {
-                        //장바구니 추가
-                        PrintCartMenu(md.getName(), index);
-                        break;
-                    }
-                } else if (select == 0) {
-                    PrintHiddenMenu();
-                    break;
+                //옵션 기능!
+                if (md.getOption()) {
+                    SelectOption(index, select - 1);
                 } else {
-                    System.out.println("다시 입력하세요!");
+                    //장바구니 추가
+                    System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+                    System.out.println("1. 확인        2. 취소");
+                    PrintCartMenu(md.getName(), index);
                 }
-            } catch (InputMismatchException e) {
+            } else if (select == 0) {
+                PrintHiddenMenu();
+            } else {
                 System.out.println("다시 입력하세요!");
-                sc = new Scanner(System.in);
+                SelectMerchndise(index);
             }
+        } catch (InputMismatchException e) {
+            System.out.println("다시 입력하세요!");
+            sc = new Scanner(System.in);
+            SelectMerchndise(index);
         }
+
     }
 
     //옵션 고르기(메뉴 인덱스,상품 인덱스)
@@ -359,74 +362,80 @@ public class Kiosk {
         System.out.println("위 메뉴의 어떤 옵션으로 추가하시겠습니까?");
         md.PrintOption();
 
-        while (true) {
-            try {
-                int choice = sc.nextInt();
 
-                if (1 <= choice && choice <= md.getOptionList().size()) {
-                    //옵션까지 선택
-                    Merchandise option = md.getOptionList().get(choice - 1);
-                    System.out.println(option.toString());
-                    PrintCartMenu(option.getName(), menuindex);
-                    break;
-                } else {
-                    System.out.println("다시 입력하세요!");
-                }
-            } catch (InputMismatchException e) {
+        try {
+            int choice = sc.nextInt();
+
+            if (1 <= choice && choice <= md.getOptionList().size()) {
+                //옵션까지 선택
+                Merchandise option = md.getOptionList().get(choice - 1);
+                System.out.println(option.toString());
+                System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
+                System.out.println("1. 확인        2. 취소");
+                PrintCartMenu(option.getName(), menuindex);
+
+            } else {
                 System.out.println("다시 입력하세요!");
-                sc = new Scanner(System.in);
+                SelectOption(menuindex, mdindex);
             }
+        } catch (InputMismatchException e) {
+            System.out.println("다시 입력하세요!");
+            sc = new Scanner(System.in);
+            SelectOption(menuindex, mdindex);
         }
+
     }
 
     private void PrintHiddenMenu() {
         //총 판매 금액(히든메뉴)
         PrintTotalSale();
         System.out.println("1. 돌아가기");
+        SelectMainBack();
+    }
 
-        while (true) {
-            try {
-                int select = sc.nextInt();
-                if (select == 1) {
-                    PrintMainMenu();//메인 메뉴로 돌아가기
-                    break;
-                } else {
-                    System.out.println("다시 입력하세요!");
-                }
-            } catch (InputMismatchException e) {
+    void SelectMainBack() {
+        try {
+            int select = sc.nextInt();
+            if (select == 1) {
+                PrintMainMenu();//메인 메뉴로 돌아가기
+
+            } else {
                 System.out.println("다시 입력하세요!");
-                sc = new Scanner(System.in);
+                SelectMainBack();
             }
+        } catch (InputMismatchException e) {
+            System.out.println("다시 입력하세요!");
+            sc = new Scanner(System.in);
+            SelectMainBack();
         }
     }
 
+
     //장바구니 메뉴 출력(상품의 이름, 메뉴의 인덱스)
     private void PrintCartMenu(String name, int index) {
-        System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
-        System.out.println("1. 확인        2. 취소");
+        try {
+            int check = sc.nextInt();
+            if (check == 1) {
+                //장바구니에 추가
+                AddToCart(name);
+                PrintMainMenu();
 
-        while (true) {
-            try {
-                int check = sc.nextInt();
-                if (check == 1) {
-                    //장바구니에 추가
-                    AddToCart(name);
-                    PrintMainMenu();
-                    break;
-                } else if (check == 2) {
-                    //장바구니에 넣기 취소
-                    //해당 인덱스의 메뉴 출력, 상품 선택
-                    PrintMerchandise(index);
-                    SelectMerchndise(index);
-                    break;
-                } else {
-                    System.out.println("다시 입력하세요!");
-                }
-            } catch (InputMismatchException e) {
+            } else if (check == 2) {
+                //장바구니에 넣기 취소
+                //해당 인덱스의 메뉴 출력, 상품 선택
+                PrintMerchandise(index);
+                SelectMerchndise(index);
+
+            } else {
                 System.out.println("다시 입력하세요!");
-                sc = new Scanner(System.in);
+                PrintCartMenu(name, index);
             }
+        } catch (InputMismatchException e) {
+            System.out.println("다시 입력하세요!");
+            sc = new Scanner(System.in);
+            PrintCartMenu(name, index);
         }
+
     }
 
     private void CancelOrder() {
@@ -446,25 +455,26 @@ public class Kiosk {
         System.out.println("1. 확인        2. 취소");
 
 
-        while (true) {
-            try {
-                int select = sc.nextInt();
-                if (select == 1) {
-                    System.out.println("진행하던 주문이 취소되었습니다.");
-                    order.cancelOrder();
-                    PrintMainMenu();
-                    break;
-                } else if (select == 2) {
-                    PrintMainMenu();//메인메누
-                    break;
-                } else {
-                    System.out.println("다시 입력하세요!");
-                }
-            } catch (InputMismatchException e) {
+        try {
+            int select = sc.nextInt();
+            if (select == 1) {
+                System.out.println("진행하던 주문이 취소되었습니다.");
+                order.cancelOrder();
+                PrintMainMenu();
+
+            } else if (select == 2) {
+                PrintMainMenu();//메인메누
+
+            } else {
                 System.out.println("다시 입력하세요!");
-                sc = new Scanner(System.in);
+                CancelOrder();
             }
+        } catch (InputMismatchException e) {
+            System.out.println("다시 입력하세요!");
+            sc = new Scanner(System.in);
+            CancelOrder();
         }
+
     }
 
     private void OrderMdInCart() {
@@ -488,35 +498,34 @@ public class Kiosk {
         System.out.println("1. 주문      2. 메뉴판");
 
 
-        while (true) {
-            try {
-                int select = sc.nextInt();
-                if (select == 1) {
-                    //주문완료
-                    soldMdSet.addAll(order.getOrderMap().keySet());//판매 목록에 추가
-                    totalSale += order.getPricesum();//판매 금액
+        try {
+            int select = sc.nextInt();
+            if (select == 1) {
+                //주문완료
+                soldMdSet.addAll(order.getOrderMap().keySet());//판매 목록에 추가
+                totalSale += order.getPricesum();//판매 금액
 
-                    System.out.println("주문이 완료되었습니다!");
-                    System.out.println("대기번호는 [ " + wait++ + " ] 번 입니다.");
-                    System.out.println("3초후 메뉴판으로 돌아갑니다.");
-                    order.cancelOrder();
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    PrintMainMenu();
-                    break;
-                } else if (select == 2) {
-                    PrintMainMenu();
-                    break;
-                } else {
-                    System.out.println("다시 입력하세요!");
+                System.out.println("주문이 완료되었습니다!");
+                System.out.println("대기번호는 [ " + wait++ + " ] 번 입니다.");
+                System.out.println("3초후 메뉴판으로 돌아갑니다.");
+                order.cancelOrder();
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (InputMismatchException e) {
+                PrintMainMenu();
+            } else if (select == 2) {
+                PrintMainMenu();
+
+            } else {
                 System.out.println("다시 입력하세요!");
-                sc = new Scanner(System.in);
+                OrderMdInCart();
             }
+        } catch (InputMismatchException e) {
+            System.out.println("다시 입력하세요!");
+            sc = new Scanner(System.in);
+            OrderMdInCart();
         }
     }
 
