@@ -184,7 +184,7 @@ public class Kiosk {
         System.out.println(ordernum + ". Order\t\t | 장바구니를 확인 후 주문합니다");
         System.out.println(cancelnum + ". Cancel\t\t | 진행중인 주문을 취소합니다");
 
-        SelectMenu();
+        SelectMenu();// print main menu 실행시 반드시 실행
     }
 
     //선택한 메뉴의 상품 출력
@@ -251,7 +251,7 @@ public class Kiosk {
             try {
                 int select = sc.nextInt();
 
-                if (select <= menulist.size() && select >= 1) {
+                if (1 <= select && select <= menulist.size()) {
                     //메뉴 선택
                     PrintMerchandise(select - 1);
                     SelectMerchndise(select - 1);
@@ -284,7 +284,7 @@ public class Kiosk {
             try {
                 int select = sc.nextInt();
 
-                if (select <= select_menu.getMdlist().size() && select >= 1) {
+                if (1 <= select && select <= select_menu.getMdlist().size()) {
                     //상품 선택
                     Merchandise md = select_menu.getMdlist().get(select - 1);
                     System.out.println(md.toString());
@@ -322,7 +322,7 @@ public class Kiosk {
             try {
                 int choice = sc.nextInt();
 
-                if (choice <= md.getOptionList().size() && choice >= 1) {
+                if (1 <= choice && choice <= md.getOptionList().size()) {
                     //옵션까지 선택
                     Merchandise option = md.getOptionList().get(choice - 1);
                     System.out.println(option.toString());
@@ -429,9 +429,9 @@ public class Kiosk {
     private void OrderMdInCart() {
         if (order.getPricesum() == 0) {
             System.out.println("장바구니가 비어있습니다.");
-            System.out.println("3초후 메뉴판으로 돌아갑니다.");
+            System.out.println("3초 후 메뉴판으로 돌아갑니다.");
             try {
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -441,8 +441,8 @@ public class Kiosk {
 
         System.out.println("아래와 같이 주문 하시겠습니까?");
         System.out.println("[ Orders ]");
-        order.PrintOrderList();
-        order.PrintTotal();
+        order.PrintOrderList();//주문목록 출력
+        order.PrintTotal();//주문 가격 합 출력
 
         System.out.println("1. 주문      2. 메뉴판");
 
@@ -484,8 +484,7 @@ public class Kiosk {
         System.out.println(name + "(이)가 장바구니에 추가되었습니다.");
     }
 
-    boolean start() {
+    void start() {
         PrintMainMenu();
-        return true;
     }
 }
