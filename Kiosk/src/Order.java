@@ -1,42 +1,62 @@
-import java.util.HashMap;
+
+import javax.sound.midi.Soundbank;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Order {
-    //상품 객체 담음!(장바구니)
-    private Map<String, Integer> orderMap = new LinkedHashMap<>();//상품이름, 상품개수
-    static double pricesum = 0;//가격의 합
+    private int waitNum = 0;//대기번호
 
-    void addMerchansise(String name) {
-        orderMap.put(name, orderMap.getOrDefault(name, 0) + 1);
-        pricesum += Kiosk.mdMap.get(name).getPrice();// mdMap에서 정보 가져옴
+    private Map<String, Integer> merchandiseMap = new LinkedHashMap<>();//주문 상품 목록
+
+    private double totalPrice;//총 주문 가격
+    private String message;//요청사항
+    private String order_date;//주문 일시
+    private String complete_date;//완료 일시
+
+    public Order() {
     }
 
-    void cancelOrder() {
-        orderMap.clear();//장바구니 비우기
-        pricesum = 0;
+    public Order(int waitNum, Map<String, Integer> map, double totalPrice, String message, String order_date) {
+        this.waitNum = waitNum;
+        this.merchandiseMap.putAll(map);
+        this.message = message;
+        this.totalPrice = totalPrice;
+        this.order_date = order_date;
     }
 
-    public double getPricesum() {
-        return pricesum;
-    }
-
-    public Map<String, Integer> getOrderMap() {
-        return orderMap;
-    }
-
-    public void PrintOrderList() {
-        for (String name : orderMap.keySet()) {
-            Merchandise md = Kiosk.mdMap.get(name);
-            System.out.printf("%-10s | W %.1f |  %d개 | %s\n", name, md.getPrice(), orderMap.get(name), md.getExplanation());
+    public void PrintOrderInfo() {
+        System.out.println("---------------------------------");
+        System.out.print("대기번호 : " + waitNum);
+        System.out.println(" [주문한 상품]");
+        for (String name : merchandiseMap.keySet()) {
+            System.out.println(name + "(" + merchandiseMap.get(name) + "개) ");
         }
-
+        System.out.println("총 금액 : W " + totalPrice);
+        System.out.println("요청 사항 :" + message);
+        System.out.println("주문 일시:" + order_date);
+        System.out.println("---------------------------------");
     }
 
-    public void PrintTotal() {
-        System.out.println("[ Total ]");
-        System.out.printf("W %.1f\n", pricesum);
+    public void PrintComplteOrderInfo() {
+        System.out.println("---------------------------------");
+        System.out.print("대기번호 : " + waitNum);
+        System.out.println(" [주문한 상품]");
+        for (String name : merchandiseMap.keySet()) {
+            System.out.println(name + "(" + merchandiseMap.get(name) + "개) ");
+        }
+        System.out.println("총 금액 : W" + totalPrice);
+        System.out.println("요청 사항 : " + message);
+        System.out.println("주문 일시 : " + order_date);
+        System.out.println("완료 일시 : " + complete_date);
+        System.out.println("---------------------------------");
     }
 
 
+    public int getWaitNum() {
+        return waitNum;
+    }
+
+    public void setComplete_date(String complete_date) {
+        this.complete_date = complete_date;
+    }
 }

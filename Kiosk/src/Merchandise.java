@@ -2,9 +2,11 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 
 public class Merchandise extends Menu {
+    private UUID uuid;
     protected double price;//가격
     private boolean option = false;// private 안함
     private List<Option> OptionList = new ArrayList<>();
@@ -12,14 +14,18 @@ public class Merchandise extends Menu {
 
     public Merchandise(String name, double price, String explanation) {
         super(name, explanation);
+        uuid = UUID.randomUUID();
         this.price = price;
         Kiosk.mdMap.put(name, this);//자동으로 추가
+        Kiosk.mdUUIDMap.put(uuid, this);
     }
 
     public Merchandise(String name, double price, String explanation, boolean option) {
         super(name, explanation);
+        uuid = UUID.randomUUID();
         this.price = price;
         this.option = option;
+        Kiosk.mdUUIDMap.put(uuid, this);
 
         if (!option) {
             Kiosk.mdMap.put(name, this);//자동으로 추가
@@ -29,13 +35,12 @@ public class Merchandise extends Menu {
 
     public Merchandise(String name, double price) {
         super(name);
+        uuid = UUID.randomUUID();
         this.price = price;
         Kiosk.mdMap.put(name, this);//자동으로 추가
     }
 
-    public double getPrice() {
-        return price;
-    }
+
 
 
     public void addOption(String name, double price) {
@@ -44,8 +49,16 @@ public class Merchandise extends Menu {
         OptionList.add(option);
         option.setExplanation(this.getExplanation());
         option.setShowname(name);
+        option.setMenu(getMenu());
     }
 
+    public void setOption(boolean option) {
+        this.option = option;
+    }
+
+    public double getPrice() {
+        return price;
+    }
     public boolean getOption() {
         return option;
     }
@@ -64,6 +77,10 @@ public class Merchandise extends Menu {
 
     @Override
     public String toString() {
+        return this.getName() + "\t | W " + df.format(price) + " | " + this.getExplanation() + " (" + uuid + ")";
+    }
+
+    public String GetInfo() {
         return this.getName() + "\t | W " + df.format(price) + " | " + this.getExplanation();
     }
 

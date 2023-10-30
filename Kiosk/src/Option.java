@@ -1,6 +1,7 @@
 public class Option extends Merchandise {
     private String showname;
 
+    private Menu menu;
 
     public Option(String name, double price) {
         super(name, price);

@@ -1,30 +1,47 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class Menu {
+
+    private UUID uuid;
     private String name;//메뉴이름 버거
     private String explanation;//설명 설명
 
-    private int state = 0;//항상 or 모닝 or 버거 (0 ,1 ,2)
+    private Menu menu;
 
-    private List<Merchandise> mdlist = new ArrayList<>();
+    State state;
+
+    enum State {
+        ALWAYS, MORNING, EXCEPTMORNIG;
+    }
+
+    private List<Merchandise> mdlist = new ArrayList<>();//중복 제거, 오름차순
 
     Menu(String name, String explanation) {
+        uuid = UUID.randomUUID();
         this.name = name;
         this.explanation = explanation;
-        this.state = 0;
+        this.state = State.ALWAYS;
     }
 
 
     //메뉴 주문 상태까지 지정
     Menu(String name) {
+        uuid = UUID.randomUUID();
         this.name = name;
+        this.state = State.ALWAYS;
     }
 
-    Menu(String name, String explanation, int state) {
+    Menu(String name, String explanation, State state) {
         this(name, explanation);
         this.state = state;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public Menu getMenu() {
+        return menu;
     }
 
     public void setExplanation(String explanation) {
@@ -39,8 +56,12 @@ public class Menu {
         return explanation;
     }
 
-    public int getState() {
-        return state;
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public List<Merchandise> getMdlist() {
@@ -57,9 +78,9 @@ public class Menu {
         System.out.println();
 
         System.out.println("[ " + this.name + " MENU ]");
-        for (int i = 0; i < mdlist.size(); i++) {
-            Merchandise md = mdlist.get(i);
-            System.out.println((i + 1) + ". " + md.toString());
+        int i = 1;
+        for (Merchandise md : mdlist) {
+            System.out.println((i++) + ". " + md.toString());
         }
     }
 
@@ -73,9 +94,8 @@ public class Menu {
         });
     }
 
-
     @Override
     public String toString() {
-        return this.name + "\t\t| " + this.explanation;
+        return this.name + "\t\t| " + this.explanation + " (" + uuid + ")";
     }
 }
