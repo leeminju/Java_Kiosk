@@ -713,6 +713,15 @@ public class Kiosk {
         return null;
     }
 
+    boolean findMerChandise(Menu menu, String md) {
+        for (Merchandise m : menu.getMdlist()) {
+            if (m.getName().equals(md)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void MakeMerchandise() {
         System.out.println("등록할 상품 메뉴를 입력해주세요!");
         sc = new Scanner(System.in);
@@ -755,9 +764,19 @@ public class Kiosk {
             System.out.println("존재 하는 메뉴 입니다!");
         }
 
-        System.out.println("등록할 상품 이름을 입력해주세요!");
-        sc = new Scanner(System.in);
-        String name = sc.nextLine();//이름
+        String name;
+        while (true) {
+            System.out.println("등록할 상품 이름을 입력해주세요!");
+            sc = new Scanner(System.in);
+
+            name = sc.nextLine();//이름
+
+            if (findMerChandise(find, name)) {
+                System.out.println("이미 존재하는 상품입니다!");
+            } else {
+                break;
+            }
+        }
 
         System.out.println("등록할 상품 설명을 입력해주세요!");
         sc = new Scanner(System.in);
